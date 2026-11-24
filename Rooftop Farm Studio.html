@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rooftop Farm Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e6ecf0;--fg:#17212b;--mut:#566573;--card:#fff;--line:#c5d0d8;--deck:#cfd2d0;--para:#8a9391;--grid:rgba(0,0,0,.09);--tile:#eef2f4;--sun:rgba(255,205,90,.38);--shade:rgba(60,95,140,.42);--util:rgba(30,160,150,.36);--wind:rgba(170,110,60,.42);--ok:#25804a;--bad:#b83a28;--acc:#1f6fb2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e141a;--fg:#e4ebf0;--mut:#93a2af;--card:#18212a;--line:#2e3b46;--deck:#4a5150;--para:#2c3231;--grid:rgba(255,255,255,.08);--tile:#2d3944;--ok:#6fcf97;--bad:#f08a78;--acc:#6db3f2}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Archivo,system-ui,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:14px}
+h1{font-size:clamp(1.7rem,5vw,2.6rem);font-weight:800;margin:.1em 0;letter-spacing:-.02em}h2{font-size:1.05rem;margin:0 0 8px}p{margin:.3em 0}.mut,small{color:var(--mut)}small{display:block;line-height:1.3}
+nav{display:flex;gap:6px;margin:10px 0}nav button{flex:1}
+button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:8px 12px;border-radius:8px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}button.on,button.pri{background:var(--acc);color:#fff;border-color:var(--acc)}button:disabled{opacity:.4;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:12px}
+.pl,.wrap{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:14px;align-items:start}
+@media(max-width:840px){.pl,.wrap{grid-template-columns:1fr}}
+.li{display:flex;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}.li:last-child{border:0}.li .e{font-size:1.5rem}.li .n{flex:1;font-size:.92rem;line-height:1.25}
+.q{display:flex;align-items:center;gap:6px}.q button{padding:2px 10px}
+table{border-collapse:collapse;width:100%}td,th{padding:5px 6px;border-bottom:1px solid var(--line);text-align:left;font-size:.85rem}.r{text-align:right}
+.para{background:var(--para);padding:clamp(8px,2vw,16px);border-radius:8px;box-shadow:0 8px 0 rgba(0,0,0,.22)}
+.deck{position:relative;aspect-ratio:16/10;background-color:var(--deck);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:6.25% 10%;box-shadow:inset 0 0 14px rgba(0,0,0,.35);overflow:hidden}
+.zn{position:absolute;display:grid;place-items:center;pointer-events:none;font-weight:600;text-align:center}.zn span{font-size:clamp(.55rem,calc(var(--cw)*.3),.85rem)}
+.z-sun{background:var(--sun)}.z-shade{background:var(--shade);border:2px dashed rgba(255,255,255,.55)}.z-util{background:var(--util);border:2px dashed rgba(255,255,255,.55)}.z-wind{background:repeating-linear-gradient(45deg,var(--wind) 0 6px,transparent 6px 12px)}
+.st{position:absolute;background:#4a525a;color:#fff;border-radius:3px;display:grid;place-items:center;text-align:center;font-size:clamp(.55rem,calc(var(--cw)*.3),.85rem);box-shadow:5px 7px 0 rgba(0,0,0,.28)}
+.o{position:absolute;display:grid;place-items:center;font-size:calc(var(--cw)*.55);line-height:1;border-radius:6px;background:var(--tile);border:1px solid rgba(0,0,0,.3);box-shadow:0 2px 0 rgba(0,0,0,.25);cursor:grab;user-select:none;-webkit-user-select:none}
+.edit .o{touch-action:none}.o.plant{background:#7a5636;border-radius:46% 46% 8px 8px}
+.o.net{background:repeating-linear-gradient(45deg,rgba(40,70,100,.3) 0 4px,transparent 4px 8px);border:2px dashed var(--fg);box-shadow:none}
+.o.sel{outline:3px solid var(--acc);outline-offset:1px;z-index:5}
+.bd{position:absolute;top:-6px;right:-6px;font-size:.6rem;font-style:normal;width:15px;height:15px;border-radius:50%;display:grid;place-items:center;color:#fff}.bd.ok{background:var(--ok)}.bd.no{background:var(--bad)}
+.bar{position:absolute;left:3px;right:3px;bottom:2px;height:4px;background:rgba(0,0,0,.35);border-radius:2px}.bar i{display:block;height:100%;background:#6fcf97;border-radius:2px}.flag{position:absolute;top:-2px;left:0;font-size:.65rem}
+.tile{display:flex;gap:10px;align-items:center;width:100%;text-align:left;margin-bottom:6px}.tile .e{font-size:1.5rem}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.good{color:var(--ok);font-weight:600}.warn{color:var(--bad);font-weight:600}
+.chk{padding:0;margin:0}.chk li{list-style:none;margin:3px 0;font-size:.9rem}
+.banner{background:var(--ok);color:#fff;border-radius:10px;padding:12px;font-weight:800;margin-bottom:12px}
+.meta{font-size:.85rem;margin:8px 0}
+</style></head><body><main>
+<h1>Rooftop Farm Studio</h1>
+<p class="mut">Choose your items, set them on a real 16 m × 10 m rooftop your own way, then grow and harvest.</p>
+<nav id="nav"></nav><div id="app"></div></main>
+<script>
+const GW=16,GH=10;
+const Z={sun:'Sunlight zone',shade:'Shade zone',util:'Utility zone',wind:'Wind buffer'};
+const ST={x:0,y:0,w:3,h:3},SH={x:3,y:0,w:5,h:3},UT={x:0,y:3,w:4,h:3};
+const inR=(R,x,y)=>x>=R.x&&x<R.x+R.w&&y>=R.y&&y<R.y+R.h;
+const hit=(a,b)=>a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h;
+const zoneAt=(x,y)=>x>=15||y>=9?'wind':inR(SH,x,y)?'shade':inR(UT,x,y)?'util':'sun';
+const IT=[
+['tomato','🍅','Tomato','plant','sun',30,'Loves full sun',1,1],
+['chilli','🌶️','Chilli','plant','sun',25,'Loves full sun',1,1],
+['marigold','🌼','Marigold','plant','sun',15,'Pest guard for neighbours within 2 m',1,1],
+['spinach','🥬','Spinach','plant','shade',20,'Prefers shade',1,1],
+['mint','🌿','Mint','plant','shade',20,'Prefers shade',1,1],
+['coriander','🌱','Coriander','plant','shade',15,'Prefers shade',1,1],
+['windbreak','🧱','Windbreak panel','struct','wind',350,'Shields plants within 5 m',2,1],
+['tank','🛢️','Water tank','struct','util',2500,'Needed to water plants',2,2],
+['compost','🗑️','Compost bin','struct','util',900,'Kitchen waste to manure',2,1],
+['tools','🧰','Tool box','struct','util',600,'Gloves, secateurs, sprayer',1,1],
+['net','🕸️','Shade net','struct','shade',700,'Plants under it count as shaded',2,2],
+['bag','👜','Grow bag','supply',null,60,'1 per plant'],
+['soil','🪴','Potting soil','supply',null,80,'1 per plant'],
+['fert','🧪','Fertiliser dose','supply',null,40,'Feeds one plant once'],
+['neem','🧴','Neem spray dose','supply',null,50,'Organic pesticide']];
+const I=Object.fromEntries(IT.map(a=>[a[0],{id:a[0],e:a[1],n:a[2],t:a[3],z:a[4],p:a[5],note:a[6],w:a[7],h:a[8]}]));
+let S,drag=null;const reset=()=>S={ph:1,qty:{},it:[],use:{fert:0,neem:0},pick:null,sel:null,day:0,harv:0,msg:'',zones:true,uid:1};reset();
+const $=s=>document.querySelector(s),inr=n=>'₹'+n.toLocaleString('en-IN'),cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+const pl=()=>S.it.filter(o=>I[o.id].t=='plant'),sel=()=>S.it.find(o=>o.uid==S.sel),ctr=o=>[o.x+o.w/2,o.y+o.h/2];
+const has=id=>S.it.some(o=>o.id==id),total=()=>Object.entries(S.qty).reduce((a,[k,v])=>a+v*I[k].p,0);
+const left=id=>{const t=I[id].t,q=S.qty[id]||0;return t=='plant'||t=='struct'?q-S.it.filter(o=>o.id==id).length:id=='bag'||id=='soil'?q-pl().length:q-S.use[id]};
+const ez=o=>I[o.id].t=='plant'&&S.it.some(n=>n.id=='net'&&inR(n,...ctr(o)))?'shade':zoneAt(...ctr(o));
+function fit(o){const it=I[o.id];if(o.id=='net'){const n=pl().filter(p=>inR(o,...ctr(p))).length;return{ok:n>0,t:n?`Shading ${n} plant${n>1?'s':''}.`:'Slide it over plants that like shade.'}}
+ const z=it.t=='plant'?ez(o):zoneAt(...ctr(o));return{ok:z==it.z,t:z==it.z?`Good spot: ${Z[z]}.`:`Better in the ${Z[it.z]} (now in the ${Z[z]}).`}}
+function ok(o,x,y,w,h){const R={x,y,w,h};if(x<0||y<0||x+w>GW||y+h>GH||hit(R,ST))return false;const c=o.id=='net';return!S.it.some(p=>p!==o&&c==(p.id=='net')&&hit(R,p))}
+function nav(){$('#nav').innerHTML=['1. Choose items','2. Set up rooftop','3. Grow and harvest'].map((t,i)=>`<button class="${S.ph==i+1?'on':''}" onclick="go(${i+1})">${t}</button>`).join('')}
+function go(p){S.msg='';S.pick=null;if(p>1&&!total()){S.msg='Add at least one item first.';p=1}if(p==3&&!pl().length){S.msg='Place at least one plant on the roof first.';p=2}S.ph=p;render()}
+function setq(id,d){S.qty[id]=Math.max(0,(S.qty[id]||0)+d);if(!S.qty[id])delete S.qty[id];render()}
+function plan(){
+ const cat=[['Plants','plant'],['Structures','struct'],['Supplies','supply']].map(([g,t])=>`<div class="card"><h2>${g}</h2>${IT.filter(a=>a[3]==t).map(a=>`<div class="li"><span class="e">${a[1]}</span><div class="n"><b>${a[2]}</b><small>${a[6]} · ${inr(a[5])}${a[7]?' · '+a[7]+' × '+a[8]+' m':''}</small></div><div class="q"><button aria-label="Remove one ${a[2]}" onclick="setq('${a[0]}',-1)">−</button><b>${S.qty[a[0]]||0}</b><button aria-label="Add one ${a[2]}" onclick="setq('${a[0]}',1)">+</button></div></div>`).join('')}</div>`).join('');
+ const rows=Object.entries(S.qty).map(([k,v])=>`<tr><td>${I[k].e} ${I[k].n}</td><td class="r">${v}</td><td class="r">${inr(v*I[k].p)}</td></tr>`).join('');
+ const np=Object.keys(S.qty).filter(k=>I[k].t=='plant').reduce((a,k)=>a+S.qty[k],0),tips=[];
+ if(np>(S.qty.bag||0))tips.push('One grow bag per plant.');if(np>(S.qty.soil||0))tips.push('One potting soil per plant.');if(np&&!S.qty.tank)tips.push('Add a water tank.');if(np&&!S.qty.windbreak)tips.push('Add a windbreak panel.');
+ return`<div class="pl"><div>${cat}</div><div class="card" style="position:sticky;top:8px"><h2>Bill of materials</h2>${rows?`<table><tr><th>Item</th><th class="r">Qty</th><th class="r">Cost</th></tr>${rows}<tr><td colspan="2"><b>Total</b></td><td class="r"><b>${inr(total())}</b></td></tr></table>`:'<p class="mut">Your list is empty. Use + on any item.</p>'}${tips.length?`<p class="warn">${tips.join(' ')}</p>`:''}<p class="warn">${S.msg}</p><div class="row"><button class="pri" onclick="go(2)">Set up rooftop</button><button onclick="reset();render()">Clear list</button></div></div></div>`}
+const box=R=>`left:${R.x/GW*100}%;top:${R.y/GH*100}%;width:${R.w/GW*100}%;height:${R.h/GH*100}%`;
+function deck(){
+ const zs=S.zones?`<div class="zn z-sun" style="${box({x:0,y:0,w:16,h:10})}"><span style="margin-top:12%">${Z.sun}</span></div><div class="zn z-shade" style="${box(SH)}"><span>${Z.shade}</span></div><div class="zn z-util" style="${box(UT)}"><span>${Z.util}</span></div><div class="zn z-wind" style="${box({x:15,y:0,w:1,h:10})}"></div><div class="zn z-wind" style="${box({x:0,y:9,w:15,h:1})}"><span>${Z.wind}</span></div>`:'';
+ const os=S.it.slice().sort((a,b)=>(b.id=='net')-(a.id=='net')).map(o=>{const it=I[o.id],p=it.t=='plant',f=fit(o);
+  return`<div class="o ${p?'plant':''} ${o.id=='net'?'net':''} ${S.sel==o.uid?'sel':''}" data-u="${o.uid}" role="button" aria-label="${it.n}" style="${box(o)}">${o.id=='net'?'':(p&&o.g<25?'🌱':it.e)}${S.ph==2?`<i class="bd ${f.ok?'ok':'no'}">${f.ok?'✓':'!'}</i>`:''}${p&&S.ph==3?`<span class="bar"><i style="width:${o.dead?0:o.g}%"></i></span>${o.pest?'<span class="flag">🐛</span>':''}${o.dead?'<span class="flag">💀</span>':''}${o.done?'<span class="flag">✅</span>':''}`:''}</div>`}).join('');
+ return`<div class="para"><div class="deck ${S.ph==2?'edit':''}">${zs}<div class="st" style="${box(ST)}">Stair room<br>🚪</div>${os}</div></div><p class="meta mut">1 square = 1 m · 🧭 North is up · 💨 Wind blows from the east and south · ☀ Open areas get full sun, the stair room shades its east side.</p>`}
+function tray(){const ids=Object.keys(S.qty).filter(k=>I[k].t!='supply'),o=sel();
+ let h=`<div class="card"><h2>Your items</h2><p class="mut">Tap an item, then tap the roof. Drag placed items to move them.</p>${ids.map(k=>`<button class="tile ${S.pick==k?'on':''}" ${left(k)<1?'disabled':''} onclick="S.pick='${k}';S.sel=null;S.msg='';render()"><span class="e">${I[k].e}</span><span><b>${I[k].n}</b><small>${I[k].w} × ${I[k].h} m · ${left(k)} left</small></span></button>`).join('')}<p class="mut">👜 ${left('bag')} bags · 🪴 ${left('soil')} soil · 🧪 ${left('fert')} fertiliser · 🧴 ${left('neem')} neem</p><label><input type="checkbox" ${S.zones?'checked':''} onchange="S.zones=this.checked;render()"> Show zones</label></div>`;
+ if(o){const f=fit(o);h+=`<div class="card"><b>${I[o.id].e} ${I[o.id].n}</b><p class="${f.ok?'good':'warn'}">${f.t}</p><div class="row">${I[o.id].t=='struct'?'<button onclick="rot()">Rotate</button>':''}<button onclick="rem()">Remove</button></div></div>`}
+ return h+`<p class="warn">${S.msg}</p><button class="pri" onclick="go(3)">Start growing</button>`}
+function rot(){const o=sel(),w=o.h,h=o.w,x=Math.min(o.x,GW-w),y=Math.min(o.y,GH-h);if(ok(o,x,y,w,h)){Object.assign(o,{x,y,w,h});S.msg=''}else S.msg='No room to rotate here.';render()}
+function rem(){S.it=S.it.filter(o=>o.uid!=S.sel);S.sel=null;render()}
+function checks(){const p=pl(),by=a=>S.it.filter(o=>a.includes(o.id)),all=a=>a.every(o=>fit(o).ok);
+ return[['Sun crops sit in the sunlight zone',all(p.filter(o=>I[o.id].z=='sun'))],['Leafy crops sit in the shade zone or under a net',all(p.filter(o=>I[o.id].z=='shade'))],['Tank, compost bin and tool box are in the utility zone',has('tank')&&all(by(['tank','compost','tools']))],['Windbreak panels stand on the wind buffer',has('windbreak')&&all(by(['windbreak']))],['Every plant is harvested',p.length>0&&p.every(o=>o.done)]]}
+function care(){const o=sel(),ck=checks(),pf=ck.every(a=>a[1]);let s='<p class="mut">Tap a plant on the roof to water, feed, spray or harvest it.</p>';
+ if(o&&I[o.id].t=='plant')s=`<h2>${I[o.id].e} ${I[o.id].n}</h2><p>Growth ${o.g}% · Health ${o.hp}% · Water ${o.wt}%${o.pest?' · 🐛 Pests':''}${o.dead?' · Dead':''}${o.done?' · Harvested':''}</p><div class="row"><button onclick="act('w')">💧 Water</button><button onclick="act('f')">🧪 Feed</button><button onclick="act('n')">🧴 Spray</button><button class="pri" onclick="act('h')">🧺 Harvest</button></div>`;
+ return`${pf?'<div class="banner">🌿 Perfect rooftop garden! Every zone works and every plant is harvested.</div>':''}<div class="card"><h2>Day ${S.day} · Harvested ${S.harv} of ${pl().length}</h2>${s}<p class="warn">${S.msg}</p><div class="row"><button class="pri" onclick="day()">Next day ▶</button><button onclick="go(2)">Rearrange</button></div></div><div class="card"><h2>Perfect garden checklist</h2><ul class="chk">${ck.map(a=>`<li>${a[1]?'✅':'⬜'} ${a[0]}</li>`).join('')}</ul><p class="mut">🧪 ${left('fert')} fertiliser · 🧴 ${left('neem')} neem left</p></div>`}
+function act(a){const o=sel();if(!o||o.dead)return;S.msg='';
+ if(a=='w'){if(!has('tank'))S.msg='Place a water tank to water plants.';else{o.wt=100;S.msg='Watered.'}}
+ if(a=='f'){if(left('fert')<1)S.msg='No fertiliser left.';else{S.use.fert++;o.fed=4;S.msg='Fed: faster growth for 4 days.'}}
+ if(a=='n'){if(left('neem')<1)S.msg='No neem left.';else{S.use.neem++;o.pest=0;o.prot=3;S.msg='Sprayed: protected for 3 days.'}}
+ if(a=='h'){if(o.g>=100&&!o.done){o.done=1;S.harv++;S.msg='Harvested!'}else S.msg='Not ready yet.'}render()}
+function day(){S.day++;const wb=S.it.filter(o=>o.id=='windbreak');
+ pl().forEach(o=>{if(o.done||o.dead)return;const good=ez(o)==I[o.id].z,[x,y]=ctr(o);
+  o.wt=Math.max(0,o.wt-(good?35:50));if(o.wt>0)o.g=Math.min(100,o.g+(good?10:4)+(o.fed>0?5:0));else o.hp-=12;if(!good)o.hp-=3;o.fed=Math.max(0,o.fed-1);
+  const near=S.it.some(p=>p.id=='marigold'&&p!==o&&Math.hypot(p.x-o.x,p.y-o.y)<=2.5);
+  if(o.prot>0)o.prot--;else if(!o.pest&&Math.random()<(near?.08:.25))o.pest=1;if(o.pest)o.hp-=15;
+  if(!wb.some(b=>Math.hypot(ctr(b)[0]-x,ctr(b)[1]-y)<=5)&&Math.random()<.25)o.hp-=10;
+  if(o.hp<=0){o.dead=1;o.hp=0}});S.msg='Day '+S.day+' complete.';render()}
+const pos=e=>{const r=$('.deck').getBoundingClientRect();return{px:(e.clientX-r.left)/r.width*GW,py:(e.clientY-r.top)/r.height*GH}};
+function dclick(e){if(S.ph!=2||e.target.closest('.o'))return;if(!S.pick){S.sel=null;return render()}
+ const k=S.pick,it=I[k];if(left(k)<1){S.pick=null;return render()}
+ if(it.t=='plant'&&(left('bag')<1||left('soil')<1)){S.msg='Each plant needs a free grow bag and potting soil. Add more in step 1.';return render()}
+ const p=pos(e),x=cl(Math.round(p.px-it.w/2),0,GW-it.w),y=cl(Math.round(p.py-it.h/2),0,GH-it.h),o={uid:S.uid++,id:k,x,y,w:it.w,h:it.h,g:0,wt:60,hp:100,pest:0,fed:0,prot:0,done:0,dead:0};
+ if(!ok(o,x,y,o.w,o.h)){S.msg='That spot is blocked.';return render()}
+ S.it.push(o);S.sel=o.uid;S.msg='';if(left(k)<1)S.pick=null;render()}
+function pd(e){const el=e.target.closest('.o');if(!el)return;const o=S.it.find(a=>a.uid==el.dataset.u);S.sel=o.uid;
+ if(S.ph==3)return render();const p=pos(e);drag={o,el,dx:p.px-o.x,dy:p.py-o.y,sx:e.clientX,sy:e.clientY,mv:0};el.setPointerCapture(e.pointerId)}
+function pm(e){if(!drag)return;if(Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>4)drag.mv=1;if(!drag.mv)return;const p=pos(e);
+ drag.nx=cl(Math.round(p.px-drag.dx),0,GW-drag.o.w);drag.ny=cl(Math.round(p.py-drag.dy),0,GH-drag.o.h);drag.el.style.left=drag.nx/GW*100+'%';drag.el.style.top=drag.ny/GH*100+'%'}
+function pu(){if(!drag)return;const{o}=drag;if(drag.mv&&drag.nx!=null){if(ok(o,drag.nx,drag.ny,o.w,o.h)){o.x=drag.nx;o.y=drag.ny;S.msg=''}else S.msg='That spot is blocked.'}drag=null;render()}
+function setcw(){const d=$('.deck');if(d)d.style.setProperty('--cw',d.clientWidth/GW+'px')}
+function render(){nav();$('#app').innerHTML=S.ph==1?plan():`<div class="wrap"><div>${deck()}</div><aside>${S.ph==2?tray():care()}</aside></div>`;
+ const d=$('.deck');if(d){setcw();d.onclick=dclick;d.onpointerdown=pd;d.onpointermove=pm;d.onpointerup=pu;d.onpointercancel=()=>{drag=null}}}
+addEventListener('resize',setcw);render();
+</script></body></html>
